@@ -8,7 +8,7 @@ public class InputExpression {
         }
     }
 
-    private boolean containOneOperator() {
+    private boolean containOneOperator() { //если в выражении количество операторов не равняется одному, при вызове конструктора вылетит исключение
         String[] inputExpressionArray = inputExpression.split("");
         int amountOfOperators = 0;
         for (String s: inputExpressionArray) {
@@ -31,9 +31,24 @@ public class InputExpression {
         return requiredOperator;
     }
 
-    private String firstTermString() {
+    private String firstTermString() {                              //возвращает строку стоящую слева от оператора
         int indexOfOperator = inputExpression.indexOf(getOperator());
         return inputExpression.substring(0, indexOfOperator).trim();
+    }
+
+    private String secondTermString() {                             //возвращает строку стоящую справа от оператора
+        int indexOfOperator = inputExpression.indexOf(getOperator());
+        return inputExpression.substring(indexOfOperator + 1).trim();
+    }
+
+    public boolean isRoman() {           // проверяет, являются ли одновременно два члена римскими числами
+        try {
+            RomanNumeral.valueOf(firstTermString());
+            RomanNumeral.valueOf(secondTermString());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     public int getFirstTerm() throws NumberFormatException {
@@ -44,26 +59,11 @@ public class InputExpression {
         }
     }
 
-    private String secondTermString() {
-        int indexOfOperator = inputExpression.indexOf(getOperator());
-        return inputExpression.substring(indexOfOperator + 1).trim();
-    }
-
     public int getSecondTerm() throws NumberFormatException {
         if (isRoman()) {
             return RomanNumeral.valueOf(secondTermString()).getValue();
         } else {
             return Integer.parseInt(secondTermString());
-        }
-    }
-
-    public boolean isRoman() {
-        try {
-            RomanNumeral.valueOf(firstTermString());
-            RomanNumeral.valueOf(secondTermString());
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
         }
     }
 
