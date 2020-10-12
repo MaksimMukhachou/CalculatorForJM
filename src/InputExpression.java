@@ -1,13 +1,11 @@
 public class InputExpression {
     private String inputExpression;
-    private String operator;
 
     public InputExpression(String inputExpression) throws InputExpressionException {
         this.inputExpression = inputExpression;
         if (!containOneOperator()) {
             throw new InputExpressionException("Wrong number of operators.");
         }
-        this.operator = getOperator();
     }
 
     private boolean containOneOperator() {
@@ -33,15 +31,40 @@ public class InputExpression {
         return requiredOperator;
     }
 
-    public int getFirstTerm() throws NumberFormatException{
-        int indexOfOperator = inputExpression.indexOf(operator);
-        String firstTermString = inputExpression.substring(0, indexOfOperator).trim();
-        return Integer.parseInt(firstTermString);
+    private String firstTermString() {
+        int indexOfOperator = inputExpression.indexOf(getOperator());
+        return inputExpression.substring(0, indexOfOperator).trim();
     }
 
-    public int getSecondTerm() throws NumberFormatException{
-        int indexOfOperator = inputExpression.indexOf(operator);
-        String secondTermString = inputExpression.substring(indexOfOperator + 1).trim();
-        return Integer.parseInt(secondTermString);
+    public int getFirstTerm() throws NumberFormatException {
+        if (isRoman()) {
+            return RomanNumeral.valueOf(firstTermString()).getValue();
+        } else {
+            return Integer.parseInt(firstTermString());
+        }
     }
+
+    private String secondTermString() {
+        int indexOfOperator = inputExpression.indexOf(getOperator());
+        return inputExpression.substring(indexOfOperator + 1).trim();
+    }
+
+    public int getSecondTerm() throws NumberFormatException {
+        if (isRoman()) {
+            return RomanNumeral.valueOf(secondTermString()).getValue();
+        } else {
+            return Integer.parseInt(secondTermString());
+        }
+    }
+
+    public boolean isRoman() {
+        try {
+            RomanNumeral.valueOf(firstTermString());
+            RomanNumeral.valueOf(secondTermString());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
 }

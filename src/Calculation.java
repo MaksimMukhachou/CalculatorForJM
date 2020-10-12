@@ -2,6 +2,7 @@ public class Calculation {
     private int firstTerm;
     private int secondTerm;
     private String operator;
+
     public Calculation (int firstTerm, int secondTerm, String operator) throws InputExpressionException {
         if ((firstTerm < 1 || firstTerm > 10) || (secondTerm < 1 || secondTerm > 10)) {
             throw new InputExpressionException("Numbers are out of range.");

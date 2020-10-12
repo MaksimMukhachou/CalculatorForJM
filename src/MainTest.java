@@ -10,7 +10,11 @@ public class MainTest {
             int secondTerm = inputExpression.getSecondTerm();
             String operator = inputExpression.getOperator();
             Calculation calculation = new Calculation(firstTerm, secondTerm, operator);
-            System.out.println(calculation.result());
+            if (inputExpression.isRoman()) {
+                System.out.println(RomanNumeral.transformToRoman(calculation.result()));
+            } else {
+                System.out.println(calculation.result());
+            }
         } catch (InputExpressionException | NumberFormatException e) {
             System.err.println("Incorrectly entered data. " + e.getMessage());
         }
